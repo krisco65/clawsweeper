@@ -36,7 +36,7 @@ function main() {
 function prepare() {
   const enabled = stringArg("enabled", "true");
   const targetRepo = stringArg("target-repo", stringArg("target_repo", "openclaw/openclaw"));
-  const reportRepo = stringArg("report-repo", stringArg("report_repo", "openclaw/clawsweeper"));
+  const reportRepo = stringArg("report-repo", stringArg("report_repo", "krisco65/clawsweeper"));
   const itemNumber = positiveInteger(
     stringArg("item-number", stringArg("item_number", "")),
     "item number",
@@ -110,7 +110,7 @@ function candidates() {
     stringArg("artifact-dir", stringArg("artifact_dir", "artifacts")),
   );
   const targetRepo = stringArg("target-repo", stringArg("target_repo", "openclaw/openclaw"));
-  const reportRepo = stringArg("report-repo", stringArg("report_repo", "openclaw/clawsweeper"));
+  const reportRepo = stringArg("report-repo", stringArg("report_repo", "krisco65/clawsweeper"));
   const out: LooseRecord[] = [];
   if (truthy(enabled) && fs.existsSync(artifactDir)) {
     for (const file of findMarkdownFiles(artifactDir)) {

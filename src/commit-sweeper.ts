@@ -429,7 +429,7 @@ function publishCheckCommand(args: Args): void {
   const reportRepo = argString(
     args,
     "report_repo",
-    process.env.GITHUB_REPOSITORY ?? "openclaw/clawsweeper",
+    process.env.GITHUB_REPOSITORY ?? "krisco65/clawsweeper",
   );
   const reportPath = argString(args, "report_path", "");
   if (!reportPath) throw new Error("Missing --report-path");
@@ -731,13 +731,13 @@ function dispatchFindingsCommand(args: Args): void {
   }
 
   const artifactDir = resolve(argString(args, "artifact_dir", "commit-artifacts"));
-  const repairRepo = argString(args, "repair_repo", "openclaw/clawsweeper");
+  const repairRepo = argString(args, "repair_repo", "krisco65/clawsweeper");
   const dispatchMode = argString(args, "dispatch_mode", "workflow_dispatch");
   const repairWorkflow = argString(args, "repair_workflow", "repair-commit-finding-intake.yml");
   const reportRepo = argString(
     args,
     "report_repo",
-    process.env.GITHUB_REPOSITORY || "openclaw/clawsweeper",
+    process.env.GITHUB_REPOSITORY || "krisco65/clawsweeper",
   );
   const reportBaseUrl = argString(
     args,

@@ -521,7 +521,7 @@ test("commit PR lookup selects the newest merged pull request", () => {
   ]);
 
   assert.deepEqual(fixedPullRequest, {
-    repo: "openclaw/openclaw",
+    repo: "krisco65/atlas-tracker",
     number: 456,
     url: "https://github.com/openclaw/openclaw/pull/456",
     title: "fix: wire the shell check",
@@ -2768,21 +2768,24 @@ test("audit health section summarizes strict status and actionable findings", ()
   const section = auditHealthSection(result);
 
   assert.match(section, /### Audit Health/);
-  assert.match(section, /<!-- clawsweeper-audit:openclaw-openclaw:start -->/);
+  assert.match(section, /<!-- clawsweeper-audit:krisco65-atlas-tracker:start -->/);
   assert.match(
     section,
-    /Repository: \[openclaw\/openclaw\]\(https:\/\/github\.com\/openclaw\/openclaw\)/,
+    /Repository: \[krisco65\/atlas-tracker\]\(https:\/\/github\.com\/krisco65\/atlas-tracker\)/,
   );
   assert.match(section, /Status: \*\*Action needed\*\*/);
   assert.match(section, /Targeted review input: `10,11,14`/);
   assert.match(section, /\| Missing eligible open records \| 1 \|/);
-  assert.match(section, /\[#10\]\(https:\/\/github\.com\/openclaw\/openclaw\/issues\/10\)/);
+  assert.match(section, /\[#10\]\(https:\/\/github\.com\/krisco65\/atlas-tracker\/issues\/10\)/);
   assert.match(section, /Missing eligible open/);
-  assert.match(section, /\[#13\]\(https:\/\/github\.com\/openclaw\/openclaw\/issues\/13\)/);
+  assert.match(section, /\[#13\]\(https:\/\/github\.com\/krisco65\/atlas-tracker\/issues\/13\)/);
   assert.match(section, /Protected proposed close/);
-  assert.match(section, /\[#11\]\(https:\/\/github\.com\/openclaw\/openclaw\/issues\/11\)/);
+  assert.match(section, /\[#11\]\(https:\/\/github\.com\/krisco65\/atlas-tracker\/issues\/11\)/);
   assert.match(section, /Open archived/);
-  assert.doesNotMatch(section, /\[#12\]\(https:\/\/github\.com\/openclaw\/openclaw\/issues\/12\)/);
+  assert.doesNotMatch(
+    section,
+    /\[#12\]\(https:\/\/github\.com\/krisco65\/atlas-tracker\/issues\/12\)/,
+  );
 });
 
 test("audit defers stale item drift until the open scan is complete", () => {
@@ -2816,7 +2819,7 @@ test("recently closed dashboard rows link items and archived reports", () => {
   assert.match(rows, /\[#42\]\(https:\/\/github\.com\/openclaw\/clawhub\/pull\/42\)/);
   assert.match(
     rows,
-    /\[closed\/42\.md\]\(https:\/\/github\.com\/openclaw\/clawsweeper\/blob\/main\/closed\/42\.md\)/,
+    /\[closed\/42\.md\]\(https:\/\/github\.com\/krisco65\/clawsweeper\/blob\/main\/closed\/42\.md\)/,
   );
   assert.match(rows, /Fix pipe \\| title/);
   assert.match(rows, /already implemented on main/);

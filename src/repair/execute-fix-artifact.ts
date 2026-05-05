@@ -3430,7 +3430,7 @@ function waitForAutomergeAfterBranchRepair({ target, commit }: LooseRecord) {
 }
 
 function dispatchAutomergeCommentRouter({ target, reason }: LooseRecord) {
-  const reviewRepo = String(process.env.CLAWSWEEPER_REVIEW_REPO ?? "openclaw/clawsweeper").trim();
+  const reviewRepo = String(process.env.CLAWSWEEPER_REVIEW_REPO ?? "krisco65/clawsweeper").trim();
   const dispatchedAt = new Date().toISOString();
   const payloadPath = writePayload(`automerge-router-dispatch-${target}-${Date.now()}`, {
     event_type: "clawsweeper_comment",
@@ -3465,7 +3465,7 @@ function dispatchAutomergeCommentRouter({ target, reason }: LooseRecord) {
 }
 
 function dispatchAutomergeReviewAfterBranchRepair({ target, commit }: LooseRecord) {
-  const reviewRepo = String(process.env.CLAWSWEEPER_REVIEW_REPO ?? "openclaw/clawsweeper").trim();
+  const reviewRepo = String(process.env.CLAWSWEEPER_REVIEW_REPO ?? "krisco65/clawsweeper").trim();
   const dispatchedAt = new Date().toISOString();
   const payloadPath = writePayload(`automerge-review-dispatch-${target}-${commit}`, {
     event_type: "clawsweeper_item",
