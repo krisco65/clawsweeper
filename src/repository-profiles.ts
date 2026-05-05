@@ -30,16 +30,16 @@ const OPENCLAW_CLOSE_REASONS: readonly RepositoryCloseReason[] = [
   "stale_insufficient_info",
 ];
 
-export const DEFAULT_TARGET_REPO = "krisco65/atlas-tracker";
+export const DEFAULT_TARGET_REPO = "krisco65/clawsweeper";
 
 export const REPOSITORY_PROFILES: readonly RepositoryProfile[] = [
   {
     targetRepo: DEFAULT_TARGET_REPO,
-    slug: "krisco65-atlas-tracker",
-    displayName: "Atlas Tracker",
-    checkoutDir: "atlas-tracker",
+    slug: "krisco65-clawsweeper",
+    displayName: "ClawSweeper",
+    checkoutDir: "clawsweeper",
     promptNote:
-      "Use the Atlas Tracker source tree and current main branch. This is an AtlasForge pilot target, so review issues and pull requests conservatively. Do not auto-close issues during the pilot. Only propose auto-close for pull requests that are certainly implemented on main with source-backed evidence.",
+      "Use the ClawSweeper source tree and current main branch. This is an AtlasForge pilot target, so review issues and pull requests conservatively. Do not auto-close issues during the pilot. Only propose auto-close for pull requests that are certainly implemented on main with source-backed evidence.",
     applyCloseRules: {
       issue: [],
       pull_request: ["implemented_on_main"],

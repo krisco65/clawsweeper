@@ -521,7 +521,7 @@ test("commit PR lookup selects the newest merged pull request", () => {
   ]);
 
   assert.deepEqual(fixedPullRequest, {
-    repo: "krisco65/atlas-tracker",
+    repo: "krisco65/clawsweeper",
     number: 456,
     url: "https://github.com/openclaw/openclaw/pull/456",
     title: "fix: wire the shell check",
@@ -2768,23 +2768,23 @@ test("audit health section summarizes strict status and actionable findings", ()
   const section = auditHealthSection(result);
 
   assert.match(section, /### Audit Health/);
-  assert.match(section, /<!-- clawsweeper-audit:krisco65-atlas-tracker:start -->/);
+  assert.match(section, /<!-- clawsweeper-audit:krisco65-clawsweeper:start -->/);
   assert.match(
     section,
-    /Repository: \[krisco65\/atlas-tracker\]\(https:\/\/github\.com\/krisco65\/atlas-tracker\)/,
+    /Repository: \[krisco65\/clawsweeper\]\(https:\/\/github\.com\/krisco65\/clawsweeper\)/,
   );
   assert.match(section, /Status: \*\*Action needed\*\*/);
   assert.match(section, /Targeted review input: `10,11,14`/);
   assert.match(section, /\| Missing eligible open records \| 1 \|/);
-  assert.match(section, /\[#10\]\(https:\/\/github\.com\/krisco65\/atlas-tracker\/issues\/10\)/);
+  assert.match(section, /\[#10\]\(https:\/\/github\.com\/krisco65\/clawsweeper\/issues\/10\)/);
   assert.match(section, /Missing eligible open/);
-  assert.match(section, /\[#13\]\(https:\/\/github\.com\/krisco65\/atlas-tracker\/issues\/13\)/);
+  assert.match(section, /\[#13\]\(https:\/\/github\.com\/krisco65\/clawsweeper\/issues\/13\)/);
   assert.match(section, /Protected proposed close/);
-  assert.match(section, /\[#11\]\(https:\/\/github\.com\/krisco65\/atlas-tracker\/issues\/11\)/);
+  assert.match(section, /\[#11\]\(https:\/\/github\.com\/krisco65\/clawsweeper\/issues\/11\)/);
   assert.match(section, /Open archived/);
   assert.doesNotMatch(
     section,
-    /\[#12\]\(https:\/\/github\.com\/krisco65\/atlas-tracker\/issues\/12\)/,
+    /\[#12\]\(https:\/\/github\.com\/krisco65\/clawsweeper\/issues\/12\)/,
   );
 });
 

@@ -13,7 +13,7 @@ on:
       target_repo:
         description: "Target repository"
         required: true
-        default: "krisco65/atlas-tracker"
+        default: "krisco65/clawsweeper"
         type: string
       commit_sha:
         description: "Commit SHA with a ClawSweeper finding"
@@ -66,22 +66,22 @@ env:
   CLAWSWEEPER_GIT_USER_EMAIL: ${{ vars.CLAWSWEEPER_GIT_USER_EMAIL || '274271284+clawsweeper[bot]@users.noreply.github.com' }}
 
 concurrency:
-  group: commit-finding-${{ github.event.inputs.target_repo || github.event.client_payload.target_repo || 'krisco65/atlas-tracker' }}-${{ github.event.inputs.commit_sha || github.event.client_payload.commit_sha || github.run_id }}
+  group: commit-finding-${{ github.event.inputs.target_repo || github.event.client_payload.target_repo || 'krisco65/clawsweeper' }}-${{ github.event.inputs.commit_sha || github.event.client_payload.commit_sha || github.run_id }}
   cancel-in-progress: false
 
 jobs:
   disabled-target:
     name: Skip disabled target commit finding
-    if: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.target_repo == 'krisco65/atlas-tracker' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1' }}
+    if: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.target_repo == 'openclaw/clawhub' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1' }}
     runs-on: ubuntu-latest
     steps:
       - name: Explain skipped commit finding
         run: |
           echo "Skipping commit finding repair for ${{ github.event.client_payload.target_repo }}."
-          echo "Set CLAWSWEEPER_ENABLE_CLAWHUB=1 after installing the ClawSweeper GitHub App on krisco65/atlas-tracker."
+          echo "Set CLAWSWEEPER_ENABLE_CLAWHUB=1 after installing the ClawSweeper GitHub App on openclaw/clawhub."
 
   intake:
-    if: ${{ !(github.event_name == 'repository_dispatch' && github.event.client_payload.target_repo == 'krisco65/atlas-tracker' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1') }}
+    if: ${{ !(github.event_name == 'repository_dispatch' && github.event.client_payload.target_repo == 'openclaw/clawhub' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1') }}
     runs-on: ${{ github.event.inputs.runner || vars.CLAWSWEEPER_COMMIT_FINDING_RUNNER || 'blacksmith-16vcpu-ubuntu-2404' }}
     timeout-minutes: 75
     steps:
@@ -116,7 +116,7 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app_token.outputs.token }}
           ENABLED: ${{ github.event.inputs.enabled || github.event.client_payload.enabled || vars.CLAWSWEEPER_COMMIT_FINDING_INTAKE_ENABLED || 'true' }}
-          TARGET_REPO: ${{ github.event.inputs.target_repo || github.event.client_payload.target_repo || 'krisco65/atlas-tracker' }}
+          TARGET_REPO: ${{ github.event.inputs.target_repo || github.event.client_payload.target_repo || 'krisco65/clawsweeper' }}
           COMMIT_SHA: ${{ github.event.inputs.commit_sha || github.event.client_payload.commit_sha }}
           REPORT_REPO: ${{ github.event.inputs.report_repo || github.event.client_payload.report_repo || 'krisco65/clawsweeper' }}
           REPORT_PATH: ${{ github.event.inputs.report_path || github.event.client_payload.report_path }}

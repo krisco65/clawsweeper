@@ -1,6 +1,6 @@
 name: ClawSweeper
 
-run-name: ${{ github.event_name == 'repository_dispatch' && format('Review event item {0}#{1}', github.event.client_payload.target_repo || 'krisco65/atlas-tracker', github.event.client_payload.item_number || '?') || (github.event_name == 'workflow_dispatch' && github.event.inputs.apply_existing == 'true' && github.event.inputs.apply_sync_comments_only == 'true') && 'Sync Codex review comments' || ((github.event_name == 'workflow_dispatch' && github.event.inputs.apply_existing == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '3 * * * *' || github.event.schedule == '18 * * * *' || github.event.schedule == '33 * * * *' || github.event.schedule == '48 * * * *' || github.event.schedule == '8,23,38,53 * * * *'))) && 'Apply ClawSweeper closures' || ((github.event_name == 'workflow_dispatch' && github.event.inputs.audit_dashboard == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '7 */6 * * *' || github.event.schedule == '12 */6 * * *' || github.event.schedule == '17 */6 * * *'))) && 'Audit ClawSweeper state' || ((github.event_name == 'workflow_dispatch' && github.event.inputs.hot_intake == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '*/5 * * * *' || github.event.schedule == '2/5 * * * *'))) && 'Review hot ClawSweeper items' || 'Review ClawSweeper items' }}
+run-name: ${{ github.event_name == 'repository_dispatch' && format('Review event item {0}#{1}', github.event.client_payload.target_repo || 'krisco65/clawsweeper', github.event.client_payload.item_number || '?') || (github.event_name == 'workflow_dispatch' && github.event.inputs.apply_existing == 'true' && github.event.inputs.apply_sync_comments_only == 'true') && 'Sync Codex review comments' || ((github.event_name == 'workflow_dispatch' && github.event.inputs.apply_existing == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '3 * * * *' || github.event.schedule == '18 * * * *' || github.event.schedule == '33 * * * *' || github.event.schedule == '48 * * * *' || github.event.schedule == '8,23,38,53 * * * *'))) && 'Apply ClawSweeper closures' || ((github.event_name == 'workflow_dispatch' && github.event.inputs.audit_dashboard == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '7 */6 * * *' || github.event.schedule == '12 */6 * * *' || github.event.schedule == '17 */6 * * *'))) && 'Audit ClawSweeper state' || ((github.event_name == 'workflow_dispatch' && github.event.inputs.hot_intake == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '*/5 * * * *' || github.event.schedule == '2/5 * * * *'))) && 'Review hot ClawSweeper items' || 'Review ClawSweeper items' }}
 
 on:
   repository_dispatch:
@@ -10,7 +10,7 @@ on:
       target_repo:
         description: "Repository to sweep"
         required: false
-        default: "krisco65/atlas-tracker"
+        default: "krisco65/clawsweeper"
       apply_existing:
         description: "Apply existing proposed close decisions without rerunning Codex; skips items changed since review"
         required: false
@@ -133,23 +133,23 @@ env:
   CLAWSWEEPER_APP_CLIENT_ID: ${{ vars.CLAWSWEEPER_APP_CLIENT_ID }}
 
 concurrency:
-  group: ${{ github.event_name == 'repository_dispatch' && format('clawsweeper-event-{0}-{1}', github.event.client_payload.target_repo || 'krisco65/atlas-tracker', github.event.client_payload.item_number || github.run_id) || format('{0}-{1}', (github.event_name == 'workflow_dispatch' && github.event.inputs.apply_existing == 'true' && github.event.inputs.apply_sync_comments_only == 'true') && 'clawsweeper-comment-sync' || ((github.event_name == 'workflow_dispatch' && github.event.inputs.apply_existing == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '3 * * * *' || github.event.schedule == '18 * * * *' || github.event.schedule == '33 * * * *' || github.event.schedule == '48 * * * *' || github.event.schedule == '8,23,38,53 * * * *'))) && 'clawsweeper-apply' || (github.event_name == 'workflow_dispatch' && github.event.inputs.hot_intake == 'true' && (github.event.inputs.item_number != '' || github.event.inputs.item_numbers != '')) && format('clawsweeper-intake-exact-{0}', github.event.inputs.item_number || github.event.inputs.item_numbers) || ((github.event_name == 'workflow_dispatch' && github.event.inputs.hot_intake == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '*/5 * * * *' || github.event.schedule == '2/5 * * * *'))) && 'clawsweeper-intake-v2' || ((github.event_name == 'workflow_dispatch' && github.event.inputs.audit_dashboard == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '7 */6 * * *' || github.event.schedule == '12 */6 * * *' || github.event.schedule == '17 */6 * * *'))) && 'clawsweeper-audit' || 'clawsweeper-review', github.event.inputs.target_repo || github.event.client_payload.target_repo || ((github.event.schedule == '17 */6 * * *') && 'krisco65/clawsweeper' || ((github.event.schedule == '2/5 * * * *' || github.event.schedule == '22 * * * *' || github.event.schedule == '8,23,38,53 * * * *' || github.event.schedule == '12 */6 * * *') && 'krisco65/atlas-tracker' || 'krisco65/atlas-tracker'))) }}
+  group: ${{ github.event_name == 'repository_dispatch' && format('clawsweeper-event-{0}-{1}', github.event.client_payload.target_repo || 'krisco65/clawsweeper', github.event.client_payload.item_number || github.run_id) || format('{0}-{1}', (github.event_name == 'workflow_dispatch' && github.event.inputs.apply_existing == 'true' && github.event.inputs.apply_sync_comments_only == 'true') && 'clawsweeper-comment-sync' || ((github.event_name == 'workflow_dispatch' && github.event.inputs.apply_existing == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '3 * * * *' || github.event.schedule == '18 * * * *' || github.event.schedule == '33 * * * *' || github.event.schedule == '48 * * * *' || github.event.schedule == '8,23,38,53 * * * *'))) && 'clawsweeper-apply' || (github.event_name == 'workflow_dispatch' && github.event.inputs.hot_intake == 'true' && (github.event.inputs.item_number != '' || github.event.inputs.item_numbers != '')) && format('clawsweeper-intake-exact-{0}', github.event.inputs.item_number || github.event.inputs.item_numbers) || ((github.event_name == 'workflow_dispatch' && github.event.inputs.hot_intake == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '*/5 * * * *' || github.event.schedule == '2/5 * * * *'))) && 'clawsweeper-intake-v2' || ((github.event_name == 'workflow_dispatch' && github.event.inputs.audit_dashboard == 'true') || (github.event_name == 'schedule' && (github.event.schedule == '7 */6 * * *' || github.event.schedule == '12 */6 * * *' || github.event.schedule == '17 */6 * * *'))) && 'clawsweeper-audit' || 'clawsweeper-review', github.event.inputs.target_repo || github.event.client_payload.target_repo || ((github.event.schedule == '17 */6 * * *') && 'krisco65/clawsweeper' || ((github.event.schedule == '2/5 * * * *' || github.event.schedule == '22 * * * *' || github.event.schedule == '8,23,38,53 * * * *' || github.event.schedule == '12 */6 * * *') && 'krisco65/clawsweeper' || 'krisco65/clawsweeper'))) }}
   cancel-in-progress: ${{ github.event_name == 'repository_dispatch' }}
 
 jobs:
   event-disabled-target:
     name: Skip disabled target event
-    if: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.target_repo == 'krisco65/atlas-tracker' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1' }}
+    if: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.target_repo == 'openclaw/clawhub' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1' }}
     runs-on: ubuntu-latest
     steps:
       - name: Explain skipped event
         run: |
           echo "Skipping ${{ github.event.client_payload.target_repo }}#${{ github.event.client_payload.item_number || '?' }}."
-          echo "Set CLAWSWEEPER_ENABLE_CLAWHUB=1 after installing the ClawSweeper GitHub App on krisco65/atlas-tracker."
+          echo "Set CLAWSWEEPER_ENABLE_CLAWHUB=1 after installing the ClawSweeper GitHub App on openclaw/clawhub."
 
   event-review-apply:
     name: Review, comment, and apply event item
-    if: ${{ github.event_name == 'repository_dispatch' && !(github.event.client_payload.target_repo == 'krisco65/atlas-tracker' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1') }}
+    if: ${{ github.event_name == 'repository_dispatch' && !(github.event.client_payload.target_repo == 'openclaw/clawhub' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1') }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
     permissions:
@@ -168,7 +168,7 @@ jobs:
         id: target
         run: |
           set -euo pipefail
-          target_repo="${{ github.event.client_payload.target_repo || 'krisco65/atlas-tracker' }}"
+          target_repo="${{ github.event.client_payload.target_repo || 'krisco65/clawsweeper' }}"
           item_number="${{ github.event.client_payload.item_number || '' }}"
           item_kind="${{ github.event.client_payload.item_kind || '' }}"
           if ! printf '%s' "$target_repo" | grep -Eq '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$'; then
@@ -339,9 +339,15 @@ jobs:
             --shard-count 1 \
             "${additional_prompt_arg[@]}"
 
-      - name: Use state token
+      - name: Create state repo token
         id: state-token
-        run: echo "token=${{ secrets.CLAWSWEEPER_STATE_REPOSITORY_TOKEN }}" >> "$GITHUB_OUTPUT"
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ env.CLAWSWEEPER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CLAWSWEEPER_APP_PRIVATE_KEY }}
+          owner: krisco65
+          repositories: clawsweeper-state
+          permission-contents: write
 
       - uses: ./.github/actions/setup-state
         with:
@@ -526,10 +532,10 @@ jobs:
           if [ -z "$target_repo" ]; then
             case "${{ github.event.schedule || '' }}" in
               "2/5 * * * *"|"22 * * * *"|"8,23,38,53 * * * *"|"12 */6 * * *")
-                target_repo="krisco65/atlas-tracker"
+                target_repo="krisco65/clawsweeper"
                 ;;
               *)
-                target_repo="krisco65/atlas-tracker"
+                target_repo="krisco65/clawsweeper"
                 ;;
             esac
           fi
@@ -558,9 +564,15 @@ jobs:
           permission-issues: read
           permission-pull-requests: read
 
-      - name: Use state token
+      - name: Create state repo token
         id: state-token
-        run: echo "token=${{ secrets.CLAWSWEEPER_STATE_REPOSITORY_TOKEN }}" >> "$GITHUB_OUTPUT"
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ env.CLAWSWEEPER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CLAWSWEEPER_APP_PRIVATE_KEY }}
+          owner: krisco65
+          repositories: clawsweeper-state
+          permission-contents: write
 
       - uses: ./clawsweeper/.github/actions/setup-state
         with:
@@ -649,7 +661,7 @@ jobs:
             else
               batch_size="${{ github.event.inputs.batch_size || '3' }}"
             fi
-            if [ "$target_repo" = "krisco65/atlas-tracker" ]; then
+            if [ "$target_repo" = "openclaw/openclaw" ]; then
               min_active_shards="$normal_active_floor"
             else
               min_active_shards="0"
@@ -954,9 +966,15 @@ jobs:
           permission-issues: write
           permission-pull-requests: write
 
-      - name: Use state token
+      - name: Create state repo token
         id: state-token
-        run: echo "token=${{ secrets.CLAWSWEEPER_STATE_REPOSITORY_TOKEN }}" >> "$GITHUB_OUTPUT"
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ env.CLAWSWEEPER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CLAWSWEEPER_APP_PRIVATE_KEY }}
+          owner: krisco65
+          repositories: clawsweeper-state
+          permission-contents: write
 
       - uses: ./.github/actions/setup-state
         with:
@@ -1033,7 +1051,7 @@ jobs:
             --rebase-strategy theirs
 
       - name: Dispatch reproducible bug implementation candidates
-        if: ${{ success() && needs.plan.outputs.target_repo == 'krisco65/atlas-tracker' && vars.CLAWSWEEPER_AUTO_IMPLEMENT_REPRO_BUGS == '1' }}
+        if: ${{ success() && needs.plan.outputs.target_repo == 'krisco65/clawsweeper' && vars.CLAWSWEEPER_AUTO_IMPLEMENT_REPRO_BUGS == '1' }}
         env:
           GH_TOKEN: ${{ github.token }}
           TARGET_REPO: ${{ needs.plan.outputs.target_repo }}
@@ -1340,13 +1358,13 @@ jobs:
           if [ -z "$target_repo" ]; then
             case "${{ github.event.schedule || '' }}" in
               "12 */6 * * *")
-                target_repo="krisco65/atlas-tracker"
+                target_repo="krisco65/clawsweeper"
                 ;;
               "17 */6 * * *")
                 target_repo="krisco65/clawsweeper"
                 ;;
               *)
-                target_repo="krisco65/atlas-tracker"
+                target_repo="krisco65/clawsweeper"
                 ;;
             esac
           fi
@@ -1385,9 +1403,15 @@ jobs:
             echo "token=$FALLBACK_TOKEN" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Use state token
+      - name: Create state repo token
         id: state-token
-        run: echo "token=${{ secrets.CLAWSWEEPER_STATE_REPOSITORY_TOKEN }}" >> "$GITHUB_OUTPUT"
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ env.CLAWSWEEPER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CLAWSWEEPER_APP_PRIVATE_KEY }}
+          owner: krisco65
+          repositories: clawsweeper-state
+          permission-contents: write
 
       - uses: ./.github/actions/setup-state
         with:
@@ -1451,10 +1475,10 @@ jobs:
           if [ -z "$target_repo" ]; then
             case "${{ github.event.schedule || '' }}" in
               "8,23,38,53 * * * *")
-                target_repo="krisco65/atlas-tracker"
+                target_repo="krisco65/clawsweeper"
                 ;;
               *)
-                target_repo="krisco65/atlas-tracker"
+                target_repo="krisco65/clawsweeper"
                 ;;
             esac
           fi
@@ -1478,9 +1502,15 @@ jobs:
           permission-issues: write
           permission-pull-requests: write
 
-      - name: Use state token
+      - name: Create state repo token
         id: state-token
-        run: echo "token=${{ secrets.CLAWSWEEPER_STATE_REPOSITORY_TOKEN }}" >> "$GITHUB_OUTPUT"
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ env.CLAWSWEEPER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CLAWSWEEPER_APP_PRIVATE_KEY }}
+          owner: krisco65
+          repositories: clawsweeper-state
+          permission-contents: write
 
       - uses: ./.github/actions/setup-state
         with:
@@ -1756,7 +1786,7 @@ jobs:
             -f apply_checkpoint_size="$APPLY_CHECKPOINT_SIZE"
 
       - name: Queue review backstops
-        if: ${{ success() && steps.target.outputs.target_repo == 'krisco65/atlas-tracker' }}
+        if: ${{ success() && steps.target.outputs.target_repo == 'krisco65/clawsweeper' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -1803,7 +1833,7 @@ jobs:
               --ref main \
               -f apply_existing=false \
               -f hot_intake=true \
-              -f target_repo=krisco65/atlas-tracker \
+              -f target_repo=krisco65/clawsweeper \
               -f batch_size=1 \
               -f shard_count="$hot_intake_shards" \
               -f codex_timeout_ms=600000
@@ -1815,7 +1845,7 @@ jobs:
               --ref main \
               -f apply_existing=false \
               -f hot_intake=false \
-              -f target_repo=krisco65/atlas-tracker \
+              -f target_repo=krisco65/clawsweeper \
               -f batch_size=3 \
               -f shard_count="$normal_shards" \
               -f codex_timeout_ms=600000

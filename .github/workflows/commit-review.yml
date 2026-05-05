@@ -1,6 +1,6 @@
 name: ClawSweeper Commit Review
 
-run-name: Commit review ${{ github.event.inputs.target_repo || github.event.client_payload.target_repo || 'krisco65/atlas-tracker' }}@${{ github.event.inputs.commit_sha || github.event.client_payload.after_sha || github.event.client_payload.commit_sha || '?' }}
+run-name: Commit review ${{ github.event.inputs.target_repo || github.event.client_payload.target_repo || 'krisco65/clawsweeper' }}@${{ github.event.inputs.commit_sha || github.event.client_payload.after_sha || github.event.client_payload.commit_sha || '?' }}
 
 on:
   repository_dispatch:
@@ -14,7 +14,7 @@ on:
       target_repo:
         description: "Repository containing the main commit"
         required: false
-        default: "krisco65/atlas-tracker"
+        default: "krisco65/clawsweeper"
       commit_sha:
         description: "Specific commit SHA to review"
         required: true
@@ -44,23 +44,23 @@ env:
   CLAWSWEEPER_APP_CLIENT_ID: ${{ vars.CLAWSWEEPER_APP_CLIENT_ID }}
 
 concurrency:
-  group: commit-review-${{ github.event.inputs.target_repo || github.event.client_payload.target_repo || 'krisco65/atlas-tracker' }}-${{ github.event.inputs.commit_sha || github.event.client_payload.after_sha || github.event.client_payload.commit_sha || github.run_id }}
+  group: commit-review-${{ github.event.inputs.target_repo || github.event.client_payload.target_repo || 'krisco65/clawsweeper' }}-${{ github.event.inputs.commit_sha || github.event.client_payload.after_sha || github.event.client_payload.commit_sha || github.run_id }}
   cancel-in-progress: false
 
 jobs:
   disabled-target:
     name: Skip disabled target commit review
-    if: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.target_repo == 'krisco65/atlas-tracker' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1' }}
+    if: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.target_repo == 'openclaw/clawhub' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1' }}
     runs-on: ubuntu-latest
     steps:
       - name: Explain skipped commit review
         run: |
           echo "Skipping commit review for ${{ github.event.client_payload.target_repo }}."
-          echo "Set CLAWSWEEPER_ENABLE_CLAWHUB=1 after installing the ClawSweeper GitHub App on krisco65/atlas-tracker."
+          echo "Set CLAWSWEEPER_ENABLE_CLAWHUB=1 after installing the ClawSweeper GitHub App on openclaw/clawhub."
 
   plan:
     name: Plan commits
-    if: ${{ !(github.event_name == 'repository_dispatch' && github.event.client_payload.target_repo == 'krisco65/atlas-tracker' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1') }}
+    if: ${{ !(github.event_name == 'repository_dispatch' && github.event.client_payload.target_repo == 'openclaw/clawhub' && vars.CLAWSWEEPER_ENABLE_CLAWHUB != '1') }}
     runs-on: ubuntu-latest
     timeout-minutes: 40
     outputs:
@@ -105,7 +105,7 @@ jobs:
       - name: Resolve target repository
         id: target
         run: |
-          target_repo="${{ github.event.inputs.target_repo || github.event.client_payload.target_repo || 'krisco65/atlas-tracker' }}"
+          target_repo="${{ github.event.inputs.target_repo || github.event.client_payload.target_repo || 'krisco65/clawsweeper' }}"
           if ! printf '%s' "$target_repo" | grep -Eq '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$'; then
             echo "Invalid target_repo: $target_repo" >&2
             exit 1
@@ -132,9 +132,15 @@ jobs:
           permission-issues: read
           permission-pull-requests: read
 
-      - name: Use state token
+      - name: Create state repo token
         id: state-token
-        run: echo "token=${{ secrets.CLAWSWEEPER_STATE_REPOSITORY_TOKEN }}" >> "$GITHUB_OUTPUT"
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ env.CLAWSWEEPER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CLAWSWEEPER_APP_PRIVATE_KEY }}
+          owner: krisco65
+          repositories: clawsweeper-state
+          permission-contents: write
 
       - uses: ./clawsweeper/.github/actions/setup-state
         with:
@@ -316,9 +322,15 @@ jobs:
           permission-issues: read
           permission-pull-requests: read
 
-      - name: Use state token
+      - name: Create state repo token
         id: state-token
-        run: echo "token=${{ secrets.CLAWSWEEPER_STATE_REPOSITORY_TOKEN }}" >> "$GITHUB_OUTPUT"
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ env.CLAWSWEEPER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CLAWSWEEPER_APP_PRIVATE_KEY }}
+          owner: krisco65
+          repositories: clawsweeper-state
+          permission-contents: write
 
       - uses: ./clawsweeper/.github/actions/setup-state
         with:
@@ -430,9 +442,15 @@ jobs:
           filter: blob:none
           fetch-depth: 0
 
-      - name: Use state token
+      - name: Create state repo token
         id: state-token
-        run: echo "token=${{ secrets.CLAWSWEEPER_STATE_REPOSITORY_TOKEN }}" >> "$GITHUB_OUTPUT"
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ env.CLAWSWEEPER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CLAWSWEEPER_APP_PRIVATE_KEY }}
+          owner: krisco65
+          repositories: clawsweeper-state
+          permission-contents: write
 
       - uses: ./.github/actions/setup-state
         with:
