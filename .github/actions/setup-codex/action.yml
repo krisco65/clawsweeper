@@ -5,7 +5,7 @@ inputs:
     description: Codex CLI npm package version.
     default: "0.128.0"
   auth-mode:
-    description: Authentication mode. Use proxy to keep OPENAI_API_KEY out of Codex subprocesses, or login for legacy codex login.
+    description: Authentication mode. Use chatgpt with CODEX_AUTH_JSON, proxy to keep OPENAI_API_KEY out of Codex subprocesses, or login for legacy codex login.
     default: "proxy"
   codex-home:
     description: CODEX_HOME directory. Defaults to an isolated per-run ClawSweeper directory.
@@ -109,8 +109,30 @@ runs:
           codex login status
         fi
 
+    - name: Authenticate Codex with ChatGPT
+      if: ${{ inputs['auth-mode'] == 'chatgpt' }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        export CODEX_HOME="${CODEX_HOME:?}"
+        test -n "${CODEX_AUTH_JSON:-}"
+        auth_file="$CODEX_HOME/auth.json"
+        umask 077
+        printf '%s' "$CODEX_AUTH_JSON" > "$auth_file"
+        node -e '
+          const fs = require("fs");
+          const file = process.argv[1];
+          const auth = JSON.parse(fs.readFileSync(file, "utf8"));
+          if (!auth || auth.auth_mode !== "chatgpt" || !auth.tokens || !auth.tokens.refresh_token) {
+            throw new Error("CODEX_AUTH_JSON must contain ChatGPT auth tokens");
+          }
+        ' "$auth_file"
+        if [[ "${{ inputs['login-status'] }}" == "true" ]]; then
+          env -u OPENAI_API_KEY -u CODEX_API_KEY codex login status
+        fi
+
     - name: Reject unknown Codex auth mode
-      if: ${{ inputs['auth-mode'] != 'proxy' && inputs['auth-mode'] != 'login' }}
+      if: ${{ inputs['auth-mode'] != 'proxy' && inputs['auth-mode'] != 'login' && inputs['auth-mode'] != 'chatgpt' }}
       shell: bash
       run: |
         echo "Unsupported setup-codex auth-mode: ${{ inputs['auth-mode'] }}" >&2

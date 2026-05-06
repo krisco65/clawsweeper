@@ -277,8 +277,10 @@ jobs:
 
       - uses: ./.github/actions/setup-codex
         env:
+          CODEX_AUTH_JSON: ${{ secrets.CODEX_AUTH_JSON }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
+          auth-mode: ${{ vars.CLAWSWEEPER_CODEX_AUTH_MODE || 'chatgpt' }}
           login-status: "true"
 
       - uses: actions/cache@v5
@@ -805,8 +807,10 @@ jobs:
 
       - uses: ./clawsweeper/.github/actions/setup-codex
         env:
+          CODEX_AUTH_JSON: ${{ secrets.CODEX_AUTH_JSON }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
+          auth-mode: ${{ vars.CLAWSWEEPER_CODEX_AUTH_MODE || 'chatgpt' }}
           login-status: "true"
 
       - uses: actions/cache@v5
