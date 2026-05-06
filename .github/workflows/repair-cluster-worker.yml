@@ -45,6 +45,7 @@ permissions:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
   CLAWSWEEPER_APP_CLIENT_ID: ${{ vars.CLAWSWEEPER_APP_CLIENT_ID }}
+  CLAWSWEEPER_CODEX_AUTH_MODE: ${{ vars.CLAWSWEEPER_CODEX_AUTH_MODE || 'chatgpt' }}
 
 concurrency:
   group: clawsweeper-repair-${{ inputs.job }}-${{ inputs.mode }}

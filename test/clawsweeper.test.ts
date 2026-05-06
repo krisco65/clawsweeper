@@ -13,6 +13,7 @@ import {
   closingPullRequestReferenceTarget,
   compactMappedSlice,
   codexEnv,
+  codexForcedLoginConfig,
   dashboardClosedAt,
   fixedPullRequestFromCommitPullsForTest,
   formatRecentClosedRows,
@@ -2633,6 +2634,12 @@ test("codex subprocess env can expose an explicit read-only GitHub token", () =>
   } finally {
     process.env = originalEnv;
   }
+});
+
+test("codex forced login config follows configured auth mode", () => {
+  assert.equal(codexForcedLoginConfig("chatgpt"), 'forced_login_method="chatgpt"');
+  assert.equal(codexForcedLoginConfig("proxy"), 'forced_login_method="api"');
+  assert.equal(codexForcedLoginConfig(""), 'forced_login_method="api"');
 });
 
 test("related title search terms keep issue-specific words", () => {

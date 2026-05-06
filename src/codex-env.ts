@@ -16,3 +16,10 @@ export function codexEnv(options: CodexEnvOptions = {}): NodeJS.ProcessEnv {
   env.GIT_OPTIONAL_LOCKS = "0";
   return env;
 }
+
+export function codexForcedLoginConfig(value = process.env.CLAWSWEEPER_CODEX_AUTH_MODE): string {
+  const mode = String(value ?? "")
+    .trim()
+    .toLowerCase();
+  return mode === "chatgpt" ? 'forced_login_method="chatgpt"' : 'forced_login_method="api"';
+}
